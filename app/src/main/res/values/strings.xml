@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GithubStargazers</string>
+    <string name="main_activity_title">Consulta l\'elenco degli osservatori dei repository Github.</string>
+    <string name="author_text">Autore</string>
+    <string name="repository_text">Repository</string>
+    <string name="search_text">CERCA</string>
+    <string name="main_activity_subtitle">Inserisci i dati di seguito.</string>
 </resources>
