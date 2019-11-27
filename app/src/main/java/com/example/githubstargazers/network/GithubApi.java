@@ -10,17 +10,21 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GithubApi {
+    private Retrofit retrofit;
 
     private final static String HOST = "https://api.github.com/";
 
-    public static Call<List<Stargazer>> getStargazers(String owner, String repository){
-        Retrofit retrofit = new Retrofit.Builder()
+    public GithubApi() {
+        retrofit = new Retrofit.Builder()
                 .baseUrl(HOST).callbackExecutor(Executors.newSingleThreadExecutor())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+    }
+
+    public Call<List<Stargazer>> getStargazers(String owner, String repository) {
 
         StargazerService service = retrofit.create(StargazerService.class);
-        return  service.getStargazers(owner, repository);
+        return service.getStargazers(owner, repository);
     }
 
 }

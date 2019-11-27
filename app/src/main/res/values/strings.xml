@@ -5,4 +5,7 @@
     <string name="repository_text">Repository</string>
     <string name="search_text">CERCA</string>
     <string name="main_activity_subtitle">Inserisci i dati di seguito.</string>
+    <string name="error_title">ERRORE</string>
+    <string name="error_message">Si è verificato il seguente errore:</string>
+    <string name="ok_string">OK</string>
 </resources>
