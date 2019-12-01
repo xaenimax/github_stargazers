@@ -3,7 +3,6 @@ package com.example.githubstargazers;
 import android.app.Application;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
@@ -23,14 +22,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
-
-import static junit.framework.TestCase.fail;
+import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -40,7 +36,7 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class GithubStargazerTest {
+public class MainViewModelTest {
     @Rule
     public TestRule rule = new InstantTaskExecutorRule();
 
@@ -48,32 +44,58 @@ public class GithubStargazerTest {
     Repository mockedRepository;
 
     @Mock
+    Observer<GithubResponse<List<Stargazer>>> observer;
+
+    @Mock
     Application mockedApplication;
 
+    MutableLiveData<GithubResponse<List<Stargazer>>> apiResponse = new MutableLiveData<>();
     MainViewModel viewModel;
+    String owner = "owner";
+    String repo = "repo";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
         viewModel = new MainViewModel(mockedApplication);
         viewModel.setRepository(mockedRepository);
+
+        when(mockedRepository.getStargazers(owner, repo)).thenReturn(apiResponse);
+        viewModel.getStargazers(owner, repo).observeForever(observer);
+
     }
 
     @Test
-    public void mainViewModel_test_with_no_errors() {
-        String owner = "owner";
-        String repo = "repo";
+    public void mainViewModel_test_data_fetch() {
         List<Stargazer> networkResults = new ArrayList<>();
         networkResults.add(new Stargazer());
         networkResults.add(new Stargazer());
         networkResults.add(new Stargazer());
+        GithubResponse<List<Stargazer>> response = new GithubResponse<>(networkResults);
 
-        MutableLiveData<GithubResponse<List<Stargazer>>> apiResponse = new MutableLiveData<>();
-        apiResponse.setValue(new GithubResponse<>(networkResults));
+        apiResponse.setValue(response);
 
         when(mockedRepository.getStargazers(owner, repo)).thenReturn(apiResponse);
+        assertTrue(viewModel.getStargazers(owner, repo).hasObservers());
+        verify(observer).onChanged(response);
+    }
 
-        viewModel.getStargazers(owner,repo).hasObservers();
+    @Test
+    public void mainViewModel_test_with_no_data() {
+        GithubResponse<List<Stargazer>> response = new GithubResponse<>(new ArrayList<>());
+        apiResponse.setValue(response);
+
+        when(mockedRepository.getStargazers(owner, repo)).thenReturn(apiResponse);
+        assertTrue(viewModel.getStargazers(owner, repo).hasObservers());
+    }
+
+    @Test
+    public void mainViewModel_test_with_throwable() {
+        Throwable error = new Throwable("test error");
+
+        apiResponse.setValue(new GithubResponse<>(error));
+        when(mockedRepository.getStargazers(owner, repo)).thenReturn(apiResponse);
+        assertTrue(viewModel.getStargazers(owner, repo).hasObservers());
     }
 
     @After
@@ -81,5 +103,8 @@ public class GithubStargazerTest {
         mockedRepository = null;
         viewModel = null;
         mockedApplication = null;
+        owner = null;
+        repo = null;
+        observer = null;
     }
 }

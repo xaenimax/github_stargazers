@@ -3,6 +3,7 @@ package com.example.githubstargazers.ui.home;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -13,12 +14,16 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.example.githubstargazers.R;
+import com.example.githubstargazers.model.Stargazer;
+import com.example.githubstargazers.network.GithubApi;
+import com.example.githubstargazers.network.GithubResponse;
 import com.example.githubstargazers.service.Repository;
 import com.example.githubstargazers.ui.stargazer_list.StargazerListActivity;
 import com.example.githubstargazers.viewmodel.MainViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String REPOSITORY_KEY = "repository_key";
 
     MainViewModel mainViewModel;
+    Observer<GithubResponse<List<Stargazer>>> observer;
 
     @BindView(R.id.owner_et)
     TextInputLayout ownerEditText;
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mainViewModel.setRepository(Repository.getInstance());
+        mainViewModel.setRepository(Repository.getInstance(new GithubApi()));
 
     }
 
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             searchButton.setEnabled(false);
 
+            //mainViewModel.gitHubObservable().removeObservers(this);
             mainViewModel.getStargazers(Objects.requireNonNull(ownerEditText.getEditText()).getText().toString(), repositoryEditText.getEditText().getText().toString()).observe(this, stargazers -> {
                 progressBar.setVisibility(View.GONE);
                 searchButton.setEnabled(true);

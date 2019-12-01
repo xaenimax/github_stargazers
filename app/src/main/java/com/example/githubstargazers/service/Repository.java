@@ -26,15 +26,15 @@ public class Repository {
 
     private static GithubApi sGithubApi;
 
-    private Repository(){
-        this.sGithubApi = new GithubApi();
+    private Repository(GithubApi githubApi){
+        sGithubApi = githubApi;
     }
 
-    public static Repository getInstance(){
+    public static Repository getInstance(GithubApi githubApi){
         if(sInstance == null){
             synchronized (LOCK){
-                sInstance = new Repository();
-                Log.i(LOG_TAG, "Repository instance created");
+                sInstance = new Repository(githubApi);
+               // Log.d(LOG_TAG, "Repository instance created");
             }
         }
         return sInstance;

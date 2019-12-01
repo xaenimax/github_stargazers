@@ -1,7 +1,6 @@
 package com.example.githubstargazers.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,7 +15,6 @@ import java.util.List;
 
 
 public class MainViewModel extends AndroidViewModel {
-    private static final String LOG_TAG = MainViewModel.class.getSimpleName();
     private Repository mRepository;
 
     public MainViewModel(@NonNull Application application) {
