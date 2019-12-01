@@ -1,5 +1,6 @@
 package com.example.githubstargazers.ui.home;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -26,6 +27,9 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private static final String OWNER_KEY = "owner_key";
+    private static final String REPOSITORY_KEY = "repository_key";
 
     MainViewModel mainViewModel;
 
@@ -84,6 +88,25 @@ public class MainActivity extends AppCompatActivity {
 
             });
         }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState.containsKey(OWNER_KEY)){
+            ownerEditText.getEditText().setText(savedInstanceState.getString(OWNER_KEY));
+        }
+        if(savedInstanceState.containsKey(REPOSITORY_KEY)){
+            repositoryEditText.getEditText().setText(savedInstanceState.getString(REPOSITORY_KEY));
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(OWNER_KEY, ownerEditText.getEditText().getText().toString());
+        outState.putString(REPOSITORY_KEY, repositoryEditText.getEditText().getText().toString());
+
+        super.onSaveInstanceState(outState);
     }
 
     private boolean isValidInput() {
