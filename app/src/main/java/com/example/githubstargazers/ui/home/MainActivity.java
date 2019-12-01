@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
             mainViewModel.getStargazers(Objects.requireNonNull(ownerEditText.getEditText()).getText().toString(), repositoryEditText.getEditText().getText().toString()).observe(this, stargazers -> {
                 progressBar.setVisibility(View.GONE);
                 searchButton.setEnabled(true);
-
-
                 if (stargazers.hasError()) {
                     Log.i(LOG_TAG, "Failed retrieving data: " + stargazers.getError());
                     //alertdialog di errore

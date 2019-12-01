@@ -13,4 +13,7 @@
     <string name="recycler_title">Lista degli osservatori:</string>
     <string name="enter_owner">Inserisci l\'autore</string>
     <string name="enter_repository">inserisci il repository</string>
+    <string name="username_text">Username: %s</string>
+    <string name="user_type_text">User type: %s</string>
+    <string name="user_url_text">User url: %s</string>
 </resources>

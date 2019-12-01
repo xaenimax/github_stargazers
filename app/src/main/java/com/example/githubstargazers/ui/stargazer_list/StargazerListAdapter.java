@@ -25,9 +25,7 @@ public class StargazerListAdapter extends RecyclerView.Adapter<StargazerListAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
-        ButterKnife.bind(view);
-        return new ViewHolder(view);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false));
     }
 
     @Override
@@ -55,6 +53,9 @@ public class StargazerListAdapter extends RecyclerView.Adapter<StargazerListAdap
         @BindView(R.id.user_url_tv)
         TextView userUrlTextView;
 
+        @BindView(R.id.user_type_tv)
+        TextView userTypeTextView;
+
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -66,8 +67,9 @@ public class StargazerListAdapter extends RecyclerView.Adapter<StargazerListAdap
                     .load(user.avatarUrl)
                     .placeholder(R.drawable.user_placeholder)
                     .into(userImageView);
-            usernameTextView.setText(user.login);
-            userUrlTextView.setText(user.htmlUrl);
+            usernameTextView.setText(String.format(this.itemView.getContext().getString(R.string.username_text), user.login));
+            userUrlTextView.setText(String.format(this.itemView.getContext().getString(R.string.user_url_text), user.htmlUrl));
+            userTypeTextView.setText(String.format(this.itemView.getContext().getString(R.string.user_type_text), user.type));
 
         }
     }
