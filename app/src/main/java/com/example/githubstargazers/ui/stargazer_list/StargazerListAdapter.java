@@ -1,4 +1,4 @@
-package com.example.githubstargazers.ui.home;
+package com.example.githubstargazers.ui.stargazer_list;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,11 +42,11 @@ public class StargazerListAdapter extends RecyclerView.Adapter<StargazerListAdap
         return mStargazerList.size();
     }
 
-    public void setItemList(List<Stargazer> stargazers) {
+    void setItemList(List<Stargazer> stargazers) {
         mStargazerList = stargazers;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.user_image_iv)
         ImageView userImageView;
         @BindView(R.id.username_tv)
@@ -55,13 +55,13 @@ public class StargazerListAdapter extends RecyclerView.Adapter<StargazerListAdap
         @BindView(R.id.user_url_tv)
         TextView userUrlTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
         }
 
-        public void bindData(Stargazer user) {
+        void bindData(Stargazer user) {
             Picasso.get()
                     .load(user.avatarUrl)
                     .placeholder(R.drawable.user_placeholder)

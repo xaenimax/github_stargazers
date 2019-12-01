@@ -4,8 +4,13 @@
     <string name="author_text">Autore</string>
     <string name="repository_text">Repository</string>
     <string name="search_text">CERCA</string>
-    <string name="main_activity_subtitle">Inserisci i dati di seguito.</string>
+    <string name="main_activity_subtitle">Compila i dati e clicca su cerca</string>
     <string name="error_title">ERRORE</string>
     <string name="error_message">Si è verificato il seguente errore:</string>
     <string name="ok_string">OK</string>
+    <string name="github_logo">Logo github</string>
+    <string name="no_results_error_message">Non ci sono risultati per la combinazione inserita</string>
+    <string name="recycler_title">Lista degli osservatori:</string>
+    <string name="enter_owner">Inserisci l\'autore</string>
+    <string name="enter_repository">inserisci il repository</string>
 </resources>

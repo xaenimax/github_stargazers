@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="search_button_margin">16dp</dimen>
+    <dimen name="search_button_margin">48dp</dimen>
     <dimen name="text_view_margin">8dp</dimen>
     <dimen name="main_title_margin">20dp</dimen>
     <dimen name="main_page_margin">8dp</dimen>
     <dimen name="one_hundred_dp">100dp</dimen>
+    <dimen name="main_logo_height">150dp</dimen>
+    <dimen name="recycler_view_top_margin">32dp</dimen>
+    <dimen name="recycler_view_side_margin">12dp</dimen>
+
 </resources>
