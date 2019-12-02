@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import com.example.githubstargazers.network.GithubResponse;
 import com.example.githubstargazers.service.Repository;
 import com.example.githubstargazers.ui.stargazer_list.StargazerListActivity;
 import com.example.githubstargazers.viewmodel.MainViewModel;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
@@ -39,17 +42,24 @@ public class MainActivity extends AppCompatActivity {
     MainViewModel mainViewModel;
     Observer<GithubResponse<List<Stargazer>>> observer;
 
-    @BindView(R.id.owner_et)
-    TextInputLayout ownerEditText;
+    @BindView(R.id.owner_tl)
+    TextInputLayout ownerTextLayout;
 
-    @BindView(R.id.repository_et)
-    TextInputLayout repositoryEditText;
+    @BindView(R.id.repository_tl)
+    TextInputLayout repositoryTextLayout;
 
     @BindView(R.id.data_loader_pb)
     ProgressBar progressBar;
 
     @BindView(R.id.search_stargazer_b)
     Button searchButton;
+
+
+    @BindView(R.id.owner_te)
+    TextInputEditText ownerEditText;
+
+    @BindView(R.id.repository_te)
+    TextInputEditText repositoryEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,40 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.setRepository(Repository.getInstance(new GithubApi()));
 
+        ownerEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ownerTextLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        repositoryEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                repositoryTextLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     @OnClick(R.id.search_stargazer_b)
@@ -70,8 +114,7 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             searchButton.setEnabled(false);
 
-            //mainViewModel.gitHubObservable().removeObservers(this);
-            mainViewModel.getStargazers(Objects.requireNonNull(ownerEditText.getEditText()).getText().toString(), repositoryEditText.getEditText().getText().toString()).observe(this, stargazers -> {
+            mainViewModel.getStargazers(Objects.requireNonNull(ownerTextLayout.getEditText()).getText().toString(), repositoryTextLayout.getEditText().getText().toString()).observe(this, stargazers -> {
                 progressBar.setVisibility(View.GONE);
                 searchButton.setEnabled(true);
                 if (stargazers.hasError()) {
@@ -99,29 +142,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if(savedInstanceState.containsKey(OWNER_KEY)){
-            ownerEditText.getEditText().setText(savedInstanceState.getString(OWNER_KEY));
+            ownerTextLayout.getEditText().setText(savedInstanceState.getString(OWNER_KEY));
         }
         if(savedInstanceState.containsKey(REPOSITORY_KEY)){
-            repositoryEditText.getEditText().setText(savedInstanceState.getString(REPOSITORY_KEY));
+            repositoryTextLayout.getEditText().setText(savedInstanceState.getString(REPOSITORY_KEY));
         }
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString(OWNER_KEY, ownerEditText.getEditText().getText().toString());
-        outState.putString(REPOSITORY_KEY, repositoryEditText.getEditText().getText().toString());
+        outState.putString(OWNER_KEY, ownerTextLayout.getEditText().getText().toString());
+        outState.putString(REPOSITORY_KEY, repositoryTextLayout.getEditText().getText().toString());
 
         super.onSaveInstanceState(outState);
     }
 
     private boolean isValidInput() {
         boolean isValid = true;
-        if (ownerEditText.getEditText().getText().toString().isEmpty()) {
-            ownerEditText.setError(getString(R.string.enter_owner));
+        if (ownerTextLayout.getEditText().getText().toString().isEmpty()) {
+            ownerTextLayout.setError(getString(R.string.enter_owner));
             isValid = false;
         }
-        if (repositoryEditText.getEditText().getText().toString().isEmpty()) {
-            repositoryEditText.setError(getString(R.string.enter_repository));
+        if (repositoryTextLayout.getEditText().getText().toString().isEmpty()) {
+            repositoryTextLayout.setError(getString(R.string.enter_repository));
             isValid = false;
         }
         return isValid;

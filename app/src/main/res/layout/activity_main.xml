@@ -55,12 +55,13 @@
                 android:textSize="18sp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/owner_et"
+                android:id="@+id/owner_tl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/author_text">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/owner_te"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
@@ -70,13 +71,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/repository_et"
+                android:id="@+id/repository_tl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/main_page_margin"
                 android:hint="@string/repository_text">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/repository_te"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
